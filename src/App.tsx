@@ -240,44 +240,48 @@ export default function App() {
             </motion.div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {[
+              {([
                 {
                   name: 'Nubank',
-                  logo: 'https://cdn.simpleicons.org/nubank',
+                  kind: 'simple',
+                  slug: 'nubank',
                   context: 'Modernização de sistemas legados (COBOL) com apoio de IA e adoção interna de copilotos.',
                   region: 'Brasil',
                 },
                 {
                   name: 'Mercado Livre',
-                  logo: 'https://www.google.com/s2/favicons?domain=mercadolivre.com.br&sz=128',
+                  kind: 'mercado-livre',
                   context: 'Adoção corporativa de copiloto de IA pra mais de 10 mil desenvolvedores.',
                   region: 'LatAm',
                 },
                 {
                   name: 'iFood',
-                  logo: 'https://cdn.simpleicons.org/ifood',
+                  kind: 'simple',
+                  slug: 'ifood',
                   context: 'Iniciativas internas de IA pra produtividade dos times e automação de testes.',
                   region: 'Brasil',
                 },
                 {
                   name: 'Shopify',
-                  logo: 'https://cdn.simpleicons.org/shopify',
+                  kind: 'simple',
+                  slug: 'shopify',
                   context: 'Tobi Lütke, CEO, definiu uso de IA como pré-requisito antes de qualquer nova contratação.',
                   region: 'Global',
                 },
                 {
                   name: 'Stripe',
-                  logo: 'https://cdn.simpleicons.org/stripe',
+                  kind: 'simple',
+                  slug: 'stripe',
                   context: 'Integração profunda de IA no processo de revisão e modernização de código.',
                   region: 'Global',
                 },
                 {
                   name: 'Block',
-                  logo: 'https://www.google.com/s2/favicons?domain=block.xyz&sz=128',
+                  kind: 'block',
                   context: 'Lançou o Goose, agente open-source pra aumentar a produtividade do time de tecnologia.',
                   region: 'Global',
                 },
-              ].map((c, i) => (
+              ] as const).map((c, i) => (
                 <motion.div
                   key={c.name}
                   initial={{ opacity: 0, y: 20 }}
@@ -286,19 +290,31 @@ export default function App() {
                   transition={{ duration: 0.5, delay: i * 0.05 }}
                   className="group rounded-2xl border border-border bg-bg-elev p-5 transition hover:border-accent/40"
                 >
-                  <div className="mb-4 flex items-center justify-between gap-3">
-                    {c.logo.includes('google.com/s2') ? (
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white p-1">
-                        <img src={c.logo} alt={c.name} loading="lazy" className="h-full w-full object-contain" />
-                      </div>
-                    ) : (
-                      <img
-                        src={c.logo}
-                        alt={c.name}
-                        loading="lazy"
-                        className="logo-mono h-7 w-auto max-w-[130px] object-contain object-left"
-                      />
-                    )}
+                  <div className="mb-4 flex h-9 items-center justify-between gap-3">
+                    <div className="flex h-9 items-center">
+                      {c.kind === 'simple' && (
+                        <img
+                          src={`https://cdn.simpleicons.org/${c.slug}`}
+                          alt={c.name}
+                          loading="lazy"
+                          className="h-7 w-auto max-w-[130px] object-contain object-left"
+                        />
+                      )}
+                      {c.kind === 'mercado-livre' && (
+                        <svg viewBox="0 0 64 64" className="h-9 w-9" aria-label="Mercado Livre">
+                          <circle cx="32" cy="32" r="30" fill="#FFE600" />
+                          <path
+                            d="M14 30 C 18 40, 26 42, 32 39 C 38 42, 46 40, 50 30 C 46 33, 38 33, 32 31 C 26 33, 18 33, 14 30 Z"
+                            fill="#2D3277"
+                          />
+                        </svg>
+                      )}
+                      {c.kind === 'block' && (
+                        <span className="font-extrabold tracking-tight text-text-h" style={{ fontSize: '22px', letterSpacing: '-0.04em' }}>
+                          block<span className="text-accent">.</span>
+                        </span>
+                      )}
+                    </div>
                     <span className="rounded-md border border-border-soft bg-bg px-2 py-0.5 text-[10px] uppercase tracking-wider text-text-muted">
                       {c.region}
                     </span>
