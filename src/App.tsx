@@ -243,7 +243,7 @@ export default function App() {
         </section>
 
         {/* MOVIMENTO / EMPRESAS REAIS */}
-        <section className="border-y border-border-soft py-20">
+        <section className="py-20">
           <div className="mx-auto max-w-7xl px-6">
             <motion.div {...fadeUp} className="mx-auto mb-14 max-w-2xl text-center">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
@@ -344,7 +344,7 @@ export default function App() {
         </section>
 
         {/* ANTES vs DEPOIS */}
-        <section id="antes-depois" className="relative isolate overflow-hidden border-t border-border-soft py-28">
+        <section id="antes-depois" className="relative isolate overflow-hidden py-28">
           <AuroraBlobs className="absolute inset-0 -z-10 opacity-70" variant="b" />
           <div className="mx-auto max-w-7xl px-6">
             <motion.div {...fadeUp} className="mx-auto mb-14 max-w-2xl text-center">
@@ -497,7 +497,7 @@ export default function App() {
         </section>
 
         {/* ARQUITETURA */}
-        <section id="arquitetura" className="border-t border-border-soft py-28">
+        <section id="arquitetura" className="py-28">
           <div className="mx-auto max-w-7xl px-6">
             <motion.div {...fadeUp} className="mx-auto mb-12 max-w-2xl text-center">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
@@ -660,7 +660,7 @@ export default function App() {
         </section>
 
         {/* METODOLOGIA */}
-        <section id="metodologia" className="relative isolate overflow-hidden border-t border-border-soft bg-bg-elev/40 py-28">
+        <section id="metodologia" className="relative isolate overflow-hidden py-28">
           <PerspectiveGrid className="absolute inset-0 -z-10" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-bg/60 via-transparent to-bg/80" />
 
@@ -816,7 +816,7 @@ export default function App() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="relative isolate overflow-hidden border-t border-border-soft py-28">
+        <section id="faq" className="relative isolate overflow-hidden py-28">
           <AuroraBlobs className="absolute inset-0 -z-10 opacity-50" variant="c" />
           <div className="mx-auto max-w-3xl px-6">
             <motion.div {...fadeUp} className="mb-12 text-center">

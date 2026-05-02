@@ -74,7 +74,7 @@ export function HowItWorks() {
     <section
       id="como-funciona"
       ref={wrapperRef}
-      className="relative border-t border-border-soft bg-bg-elev/30 md:h-[280vh]"
+      className="relative md:h-[280vh]"
     >
       {/* MOBILE FALLBACK — stacked, static (no pinning) */}
       <div className="mx-auto max-w-2xl px-6 py-20 md:hidden">
