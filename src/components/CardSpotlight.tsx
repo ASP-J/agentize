@@ -20,7 +20,7 @@ export function CardSpotlight({ children, className }: Props) {
     mouseY.set(e.clientY - rect.top);
   };
 
-  const background = useMotionTemplate`radial-gradient(220px circle at ${mouseX}px ${mouseY}px, rgba(139,92,246,0.18), transparent 70%)`;
+  const background = useMotionTemplate`radial-gradient(220px circle at ${mouseX}px ${mouseY}px, rgba(var(--accent-rgb),0.18), transparent 70%)`;
 
   return (
     <div

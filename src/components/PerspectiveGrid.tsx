@@ -16,8 +16,8 @@ export function PerspectiveGrid({ className = '' }: { className?: string }) {
           inset: -50% 0 0 0;
           height: 200%;
           background-image:
-            linear-gradient(to right, rgba(139, 92, 246, 0.35) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(139, 92, 246, 0.35) 1px, transparent 1px);
+            linear-gradient(to right, rgba(var(--accent-rgb), 0.32) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(var(--accent-rgb), 0.32) 1px, transparent 1px);
           background-size: 60px 60px;
           transform-origin: 50% 0%;
           transform: rotateX(60deg);

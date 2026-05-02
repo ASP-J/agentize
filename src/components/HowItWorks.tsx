@@ -10,41 +10,41 @@ const steps = [
   {
     n: '01',
     icon: '🔔',
-    title: 'Recebe a PR',
-    desc: 'Webhook do GitHub dispara o agente assim que a PR é aberta.',
-    tech: 'GitHub App',
+    title: 'Recebe a alteração',
+    desc: 'Assim que um desenvolvedor envia uma alteração de código, o agente é acionado automaticamente.',
+    tech: 'Integração com repositório',
     time: '0s',
   },
   {
     n: '02',
     icon: '🗂️',
-    title: 'Lê o diff + contexto',
-    desc: 'Indexa arquivos modificados e busca código relacionado no monorepo.',
-    tech: 'Code RAG',
+    title: 'Entende o que mudou',
+    desc: 'Lê os arquivos alterados e localiza as partes do sistema relacionadas àquela mudança.',
+    tech: 'Leitura de código',
     time: '~4s',
   },
   {
     n: '03',
     icon: '🔬',
     title: 'Analisa qualidade',
-    desc: 'Detecta bugs, anti-patterns, code smells e gaps de cobertura de teste.',
-    tech: 'Claude Sonnet',
+    desc: 'Detecta possíveis bugs, problemas de qualidade e falta de testes — com base nos padrões do seu time.',
+    tech: 'IA avançada',
     time: '~6s',
   },
   {
     n: '04',
     icon: '💬',
-    title: 'Comenta inline',
-    desc: 'Sugere fixes específicos linha-a-linha, com diff já formatado.',
-    tech: 'GitHub API',
+    title: 'Sugere correções',
+    desc: 'Aponta cada problema diretamente no trecho de código, já com a correção pronta.',
+    tech: 'Comentários no repositório',
     time: '~3s',
   },
   {
     n: '05',
     icon: '✅',
-    title: 'Aprova / Solicita',
-    desc: 'Decide entre approve, request changes ou comment com base na policy.',
-    tech: 'Policy engine',
+    title: 'Decide',
+    desc: 'Aprova, pede ajustes ou só comenta — segundo as regras do seu time.',
+    tech: 'Regras do time',
     time: '~1s',
   },
 ];
@@ -60,7 +60,6 @@ function TimelineRow({
   total: number;
   progress: MotionValue<number>;
 }) {
-  // Each step "activates" between these two scroll points
   const start = index / total;
   const mid = (index + 0.4) / total;
 
@@ -72,14 +71,11 @@ function TimelineRow({
 
   return (
     <div className="relative grid grid-cols-[64px_1fr] items-start gap-5 md:grid-cols-[88px_1fr] md:gap-8">
-      {/* ICON column */}
       <div className="relative flex justify-center">
-        {/* Pulse ring */}
         <motion.span
           style={{ opacity: ringOpacity }}
           className="pointer-events-none absolute top-0 h-14 w-14 rounded-full bg-accent/20 blur-md"
         />
-        {/* Icon bubble — sits exactly over the timeline line */}
         <motion.div
           style={{ scale: iconScale, opacity: iconOpacity }}
           className="relative z-10 grid h-14 w-14 place-items-center rounded-full border border-accent/40 bg-bg-elev text-2xl shadow-lg shadow-accent/20"
@@ -88,7 +84,6 @@ function TimelineRow({
         </motion.div>
       </div>
 
-      {/* CONTENT card */}
       <motion.div
         style={{ x: cardX, opacity: cardOpacity }}
         className="rounded-[var(--radius-card)] border border-border bg-bg-elev/80 p-5 backdrop-blur transition hover:border-accent/40 md:p-6"
@@ -117,13 +112,11 @@ export function HowItWorks() {
     offset: ['start 75%', 'end 65%'],
   });
 
-  // Drives the vertical line that draws as you scroll
   const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   return (
     <section id="como-funciona" className="border-t border-border-soft bg-bg-elev/30 py-28">
       <div className="mx-auto max-w-7xl px-6">
-        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -135,14 +128,13 @@ export function HowItWorks() {
             Como funciona um agente
           </span>
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-text-h md:text-5xl">
-            PR review completo em <span className="text-grad">~14 segundos</span>
+            Revisão de código automática em <span className="text-grad">~14 segundos</span>
           </h2>
           <p className="mt-4 text-text">
-            Role pra acompanhar o fluxo, etapa por etapa — do webhook do GitHub à decisão final.
+            Role pra acompanhar o fluxo, etapa por etapa — desde a alteração enviada até a decisão final.
           </p>
         </motion.div>
 
-        {/* PR callout */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -151,24 +143,21 @@ export function HowItWorks() {
           className="mx-auto mb-16 max-w-xl rounded-2xl border border-border bg-bg-elev p-5 text-center"
         >
           <p className="mb-2 text-[11px] uppercase tracking-[0.2em] text-text-muted">
-            Exemplo real · Time de plataforma
+            Exemplo real
           </p>
           <p className="font-mono text-sm text-text-h">
-            <span className="text-accent">PR #1247</span> — feat: add OAuth login with Google
+            <span className="text-accent">Alteração #1247</span> — Login com Google adicionado
           </p>
           <p className="mt-1 text-xs text-text-muted">
-            +318 / -42 linhas · 6 arquivos · aberta às 14:32
+            318 linhas adicionadas · 42 removidas · 6 arquivos · 14:32
           </p>
         </motion.div>
 
-        {/* TIMELINE */}
         <div ref={wrapperRef} className="relative mx-auto max-w-3xl">
-          {/* Static rail */}
           <div className="pointer-events-none absolute bottom-0 left-[31px] top-0 w-px bg-border md:left-[43px]" />
-          {/* Animated rail (drawn by scroll) */}
           <motion.div
             style={{ height: lineHeight }}
-            className="pointer-events-none absolute left-[31px] top-0 w-px bg-gradient-to-b from-accent via-accent-2 to-accent-3 shadow-[0_0_8px_rgba(139,92,246,0.6)] md:left-[43px]"
+            className="pointer-events-none absolute left-[31px] top-0 w-px bg-gradient-to-b from-accent via-accent-2 to-accent-3 shadow-[0_0_8px_rgba(var(--accent-rgb),0.6)] md:left-[43px]"
           />
 
           <div className="space-y-10 md:space-y-14">
@@ -184,7 +173,6 @@ export function HowItWorks() {
           </div>
         </div>
 
-        {/* Outcome card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -198,10 +186,10 @@ export function HowItWorks() {
             </div>
             <div className="text-sm">
               <p className="mb-1 font-semibold text-text-h">
-                3 sugestões inline · 1 race condition no callback de OAuth · Aprovação condicional
+                3 correções sugeridas · 1 problema crítico encontrado no login · ajustes solicitados
               </p>
               <p className="text-text">
-                Cobertura de testes verificada · CI rodando · Tempo total:{' '}
+                Testes automáticos verificados · build em andamento · tempo total:{' '}
                 <strong className="text-text-h">14,2 segundos</strong>
               </p>
             </div>

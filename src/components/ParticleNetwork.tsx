@@ -98,7 +98,7 @@ export function ParticleNetwork({ className = '', count = 70, linkDist = 130 }: 
         const alpha = 0.35 + (p.z + 0.5) * 0.5;
         ctx.beginPath();
         ctx.arc(p.x, p.y, 1.6 * scale, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(167, 139, 250, ${alpha})`;
+        ctx.fillStyle = `rgba(96, 165, 250, ${alpha})`;
         ctx.fill();
       }
 
@@ -113,7 +113,7 @@ export function ParticleNetwork({ className = '', count = 70, linkDist = 130 }: 
           if (d < linkDist) {
             const t = 1 - d / linkDist;
             const depth = (a.z + b.z) / 2 + 0.5; // 0..1
-            ctx.strokeStyle = `rgba(139, 92, 246, ${t * 0.35 * depth})`;
+            ctx.strokeStyle = `rgba(59, 130, 246, ${t * 0.35 * depth})`;
             ctx.lineWidth = 0.8 * depth;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);

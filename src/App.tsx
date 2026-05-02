@@ -14,9 +14,52 @@ const fadeUp = {
   transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] as const },
 };
 
+type Theme = 'light' | 'dark';
+
+function useTheme(): [Theme, () => void] {
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof document === 'undefined') return 'dark';
+    return document.documentElement.classList.contains('light') ? 'light' : 'dark';
+  });
+
+  const toggle = () => {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    const root = document.documentElement;
+    if (next === 'light') root.classList.add('light');
+    else root.classList.remove('light');
+    try { localStorage.setItem('agentize-theme', next); } catch { /* noop */ }
+  };
+
+  return [theme, toggle];
+}
+
+function ThemeToggle({ theme, onToggle }: { theme: Theme; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      aria-label={theme === 'dark' ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
+      onClick={onToggle}
+      className="grid h-9 w-9 place-items-center rounded-lg border border-border bg-bg-elev text-text-h transition hover:border-accent hover:bg-accent/10"
+    >
+      {theme === 'dark' ? (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+      ) : (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, toggleTheme] = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -36,7 +79,7 @@ export default function App() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
           <a href="#top" className="flex items-center gap-2.5 font-bold text-text-h">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-accent to-accent-2 text-sm shadow-lg shadow-accent/30">
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-accent to-accent-2 text-sm shadow-lg shadow-accent/30 text-white">
               ◆
             </span>
             <span className="text-lg tracking-tight">Agentize</span>
@@ -59,37 +102,38 @@ export default function App() {
               onClick={() => setMenuOpen(false)}
               className="mt-2 inline-flex items-center justify-center rounded-lg bg-gradient-to-br from-accent to-accent-2 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-accent/30 transition-transform hover:-translate-y-0.5 md:mt-0"
             >
-              Agendar diagnóstico
+              Falar com especialista
             </a>
           </nav>
 
-          <button
-            aria-label="menu"
-            onClick={() => setMenuOpen(o => !o)}
-            className="flex flex-col gap-1 p-2 md:hidden"
-          >
-            <span className="h-0.5 w-5 bg-text-h" />
-            <span className="h-0.5 w-5 bg-text-h" />
-            <span className="h-0.5 w-5 bg-text-h" />
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <button
+              aria-label="menu"
+              onClick={() => setMenuOpen(o => !o)}
+              className="flex flex-col gap-1 p-2 md:hidden"
+            >
+              <span className="h-0.5 w-5 bg-text-h" />
+              <span className="h-0.5 w-5 bg-text-h" />
+              <span className="h-0.5 w-5 bg-text-h" />
+            </button>
+          </div>
         </div>
       </header>
 
       <main>
         {/* HERO */}
         <section id="top" className="relative isolate overflow-hidden pt-24 pb-32 md:pt-32 md:pb-40">
-          {/* 3D-feeling animated particle network */}
           <div className="pointer-events-auto absolute inset-0 -z-10">
             <ParticleNetwork count={70} linkDist={140} />
           </div>
 
-          <Spotlight className="-top-20 left-0 md:left-60 md:top-10" fill="#8b5cf6" />
+          <Spotlight className="-top-20 left-0 md:left-60 md:top-10" fill="var(--color-accent)" />
 
-          {/* radial mask grid */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 -z-20
-              [background-image:linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)]
+              [background-image:linear-gradient(to_right,var(--grid-line)_1px,transparent_1px),linear-gradient(to_bottom,var(--grid-line)_1px,transparent_1px)]
               [background-size:54px_54px]
               [mask-image:radial-gradient(ellipse_60%_50%_at_50%_30%,black_40%,transparent_80%)]"
           />
@@ -105,7 +149,7 @@ export default function App() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
               </span>
-              Para times de engenharia
+              Para times de tecnologia
             </motion.span>
 
             <motion.h1
@@ -114,7 +158,7 @@ export default function App() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="text-balance text-4xl font-semibold tracking-tight text-text-h md:text-6xl lg:text-7xl"
             >
-              <span className="text-grad">Agentes de IA</span> que escrevem código com seu time.
+              <span className="text-grad">Agentes de IA</span> que aceleram seu time de tecnologia.
             </motion.h1>
 
             <motion.p
@@ -123,10 +167,10 @@ export default function App() {
               transition={{ duration: 0.7, delay: 0.25 }}
               className="mx-auto mt-7 max-w-2xl text-balance text-base text-text md:text-lg"
             >
-              Implantamos agentes que <strong className="text-text-h">geram código</strong>,{' '}
-              <strong className="text-text-h">revisam PRs</strong> e{' '}
-              <strong className="text-text-h">automatizam migrações</strong> dentro do seu repositório.
-              Em produção em 30 dias — feito sob medida pro seu stack.
+              Implantamos agentes que <strong className="text-text-h">criam funcionalidades</strong>,{' '}
+              <strong className="text-text-h">revisam código automaticamente</strong> e{' '}
+              <strong className="text-text-h">modernizam sistemas legados</strong> direto na sua base de código.
+              Em produção em 30 dias — feito sob medida pra sua tecnologia.
             </motion.p>
 
             <motion.div
@@ -139,11 +183,11 @@ export default function App() {
                 href="#cta"
                 className="ring-glow inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-accent to-accent-2 px-7 py-3.5 font-semibold text-white transition-transform hover:-translate-y-0.5"
               >
-                Agendar diagnóstico técnico →
+                Falar com um especialista →
               </a>
               <a
                 href="#como-funciona"
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-white/5 px-7 py-3.5 font-semibold text-text-h hover:border-accent hover:bg-white/10"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-bg-elev px-7 py-3.5 font-semibold text-text-h hover:border-accent hover:bg-accent/5"
               >
                 Ver agente em ação
               </a>
@@ -156,17 +200,16 @@ export default function App() {
               className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-text-muted"
             >
               <span className="flex items-center gap-1.5">
-                <span className="text-emerald-400">●</span> GitHub / GitLab
+                <span className="text-emerald-400">●</span> Integra com seu repositório
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="text-emerald-400">●</span> Self-hosted opcional
+                <span className="text-emerald-400">●</span> Pode rodar dentro da sua infra
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="text-emerald-400">●</span> SOC 2 compliant
+                <span className="text-emerald-400">●</span> Padrão SOC 2
               </span>
             </motion.div>
 
-            {/* ANIMATED FLOW */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -183,13 +226,13 @@ export default function App() {
           <div className="mx-auto max-w-7xl px-6">
             <motion.div {...fadeUp} className="mx-auto mb-14 max-w-2xl text-center">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
-                A nova engenharia
+                O novo padrão de tecnologia
               </span>
               <h2 className="text-balance text-3xl font-semibold tracking-tight text-text-h md:text-4xl">
-                As maiores tech do mundo já estão na onda dos agentes
+                As maiores empresas do mundo já estão usando agentes de IA
               </h2>
               <p className="mt-3 text-text">
-                Os times de engenharia mais avançados não estão escolhendo <em>se</em> usar IA — estão escolhendo <em>como</em> usar bem.
+                As companhias mais avançadas não estão escolhendo <em>se</em> vão usar IA — estão escolhendo <em>como</em> aplicar com retorno real.
               </p>
             </motion.div>
 
@@ -197,32 +240,32 @@ export default function App() {
               {[
                 {
                   name: 'Nubank',
-                  context: 'Modernização de COBOL legacy assistida por LLMs e adoção interna de copilots.',
+                  context: 'Modernização de sistemas legados (COBOL) com apoio de IA e adoção interna de copilotos.',
                   region: 'Brasil',
                 },
                 {
                   name: 'Mercado Livre',
-                  context: 'Deploy empresarial de GitHub Copilot pra +10k engenheiros.',
+                  context: 'Adoção corporativa de copiloto de IA pra mais de 10 mil desenvolvedores.',
                   region: 'LatAm',
                 },
                 {
                   name: 'iFood',
-                  context: 'Iniciativas internas de IA pra produtividade de devs e geração de testes.',
+                  context: 'Iniciativas internas de IA pra produtividade dos times e automação de testes.',
                   region: 'Brasil',
                 },
                 {
                   name: 'Shopify',
-                  context: 'Tobi Lütke determinou IA como pré-requisito antes de pedir headcount.',
+                  context: 'Tobi Lütke, CEO, definiu uso de IA como pré-requisito antes de qualquer nova contratação.',
                   region: 'Global',
                 },
                 {
                   name: 'Stripe',
-                  context: 'Integração profunda do Claude em workflow de code review e refactor.',
+                  context: 'Integração profunda de IA no processo de revisão e modernização de código.',
                   region: 'Global',
                 },
                 {
                   name: 'Block (Square)',
-                  context: 'Lançou Goose, agente open-source pra produtividade de engenharia.',
+                  context: 'Lançou o Goose, agente open-source pra aumentar a produtividade do time de tecnologia.',
                   region: 'Global',
                 },
               ].map((c, i) => (
@@ -251,7 +294,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* COMO FUNCIONA — fluxograma explicativo */}
+        {/* COMO FUNCIONA */}
         <HowItWorks />
 
         {/* SERVIÇOS */}
@@ -262,18 +305,18 @@ export default function App() {
                 Serviços
               </span>
               <h2 className="text-balance text-3xl font-semibold tracking-tight text-text-h md:text-5xl">
-                Onde nossos agentes atuam no seu ciclo de dev
+                Onde nossos agentes atuam no seu time de tecnologia
               </h2>
             </motion.div>
 
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {[
-                { icon: '⌨️', t: 'Code Generation', d: 'Agentes que implementam features completas a partir de issues — código, testes e PR aberta automaticamente.' },
-                { icon: '🔍', t: 'PR Review automatizado', d: 'Toda PR revisada com contexto do codebase: bugs, anti-patterns, gaps de teste e sugestões inline.' },
-                { icon: '🧪', t: 'Geração de testes', d: 'Suítes unit/integration auto-geradas para código novo e cobertura retroativa em legado.' },
-                { icon: '🔄', t: 'Migrations & Refactor', d: 'Mudanças em larga escala: Vue 2 → 3, JS → TS, atualização de dependências críticas.' },
-                { icon: '📚', t: 'Docs & ADRs', d: 'Documentação técnica e ADRs sempre sincronizados com o código — sem ninguém precisar lembrar.' },
-                { icon: '🚨', t: 'On-call & Triage', d: 'Análise de logs, identificação de root cause em incidents e fix sugerido antes do oncall acordar.' },
+                { icon: '⌨️', t: 'Criação de funcionalidades', d: 'Agentes que implementam funcionalidades completas a partir de um pedido — código, testes e revisão tudo automatizado.' },
+                { icon: '🔍', t: 'Revisão automática de código', d: 'Toda alteração revisada em segundos com contexto do seu sistema: bugs, problemas de qualidade e falta de testes — direto no código.' },
+                { icon: '🧪', t: 'Geração de testes', d: 'Testes automáticos gerados pra código novo e cobertura completa em sistemas legados, reduzindo retrabalho.' },
+                { icon: '🔄', t: 'Modernização de sistemas', d: 'Atualizações em larga escala: troca de frameworks, modernização de stacks, atualização de dependências críticas.' },
+                { icon: '📚', t: 'Documentação técnica viva', d: 'Documentação e decisões de arquitetura sempre atualizadas com o código — sem ninguém precisar lembrar.' },
+                { icon: '🚨', t: 'Resposta a incidentes', d: 'Análise de logs, identificação da causa raiz em incidentes e correção sugerida antes do plantonista acordar.' },
               ].map((s, i) => (
                 <motion.div
                   key={s.t}
@@ -295,7 +338,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* METODOLOGIA — com PerspectiveGrid 3D atrás */}
+        {/* METODOLOGIA */}
         <section id="metodologia" className="relative isolate overflow-hidden border-t border-border-soft bg-bg-elev/40 py-28">
           <PerspectiveGrid className="absolute inset-0 -z-10" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-bg/60 via-transparent to-bg/80" />
@@ -309,15 +352,15 @@ export default function App() {
                 Do diagnóstico à produção em 30 dias
               </h2>
               <p className="mt-4 text-text">
-                Processo testado, ajustado pra reduzir risco e entregar agentes confiáveis no seu CI/CD.
+                Processo testado, ajustado pra reduzir risco e entregar agentes confiáveis dentro do seu fluxo de trabalho.
               </p>
             </motion.div>
 
             <div className="grid gap-5 md:grid-cols-3">
               {[
-                { n: '01', t: 'Diagnóstico técnico', dur: 'Semana 1', d: 'Workshop com tech leads, mapeamento de pain points (PRs travados, débito técnico, on-call ruim) e priorização por impacto.' },
-                { n: '02', t: 'Construção', dur: 'Semanas 2-3', d: 'Indexamos seu codebase, construímos os agentes, integramos com GitHub/CI e validamos em ambiente staging.' },
-                { n: '03', t: 'Go-live + handover', dur: 'Semana 4', d: 'Deploy em produção, integração com workflows existentes, treinamento do time pra evolução autônoma.' },
+                { n: '01', t: 'Diagnóstico técnico', dur: 'Semana 1', d: 'Workshop com líderes técnicos, mapeamento de gargalos (revisões travadas, retrabalho, incidentes recorrentes) e priorização por impacto no negócio.' },
+                { n: '02', t: 'Construção', dur: 'Semanas 2-3', d: 'Mapeamos sua base de código, construímos os agentes, integramos com seu repositório e validamos em ambiente de testes.' },
+                { n: '03', t: 'Go-live + handover', dur: 'Semana 4', d: 'Colocamos em produção, integramos com seu fluxo atual e treinamos o time pra evoluir o sistema sozinho.' },
               ].map((s, i) => (
                 <motion.article
                   key={s.n}
@@ -349,15 +392,15 @@ export default function App() {
                 Resultados
               </span>
               <h2 className="text-balance text-3xl font-semibold tracking-tight text-text-h md:text-5xl">
-                Métricas reais de eng, não promessas
+                Resultados reais, não promessas
               </h2>
             </motion.div>
 
             <div className="grid gap-5 md:grid-cols-3">
               {[
-                { kpi: '67%', label: 'Redução no tempo médio de PR review', case: 'SaaS B2B · 40 engenheiros' },
-                { kpi: '3.4x', label: 'Velocidade em refactor de larga escala', case: 'Migração Vue 2 → 3 · 200 componentes' },
-                { kpi: '85%', label: 'Cobertura de testes auto-gerada', case: 'Backend Python · 200k LOC' },
+                { kpi: '67%', label: 'Redução no tempo médio de revisão de código', case: 'Empresa de software B2B · 40 desenvolvedores' },
+                { kpi: '3,4x', label: 'Velocidade em modernização de sistemas', case: 'Atualização de framework · 200 componentes' },
+                { kpi: '85%', label: 'Cobertura de testes gerada automaticamente', case: 'Sistema em Python · 200 mil linhas de código' },
               ].map((c, i) => (
                 <motion.div
                   key={c.kpi}
@@ -385,12 +428,12 @@ export default function App() {
             </motion.div>
             <div className="space-y-3">
               {[
-                { q: 'Quais linguagens / frameworks vocês suportam?', a: 'Qualquer linguagem mainstream (TS, Python, Go, Java, Rust, Ruby, etc.). Os agentes aprendem o estilo e padrões do seu codebase via indexing — não usamos templates genéricos.' },
-                { q: 'Como integramos com GitHub / GitLab?', a: 'Via GitHub App (ou GitLab integration) com permissões mínimas. Setup completo em ~10 minutos, sem mexer em CI/CD existente.' },
-                { q: 'Os agentes têm acesso ao nosso código privado?', a: 'Sim, com isolamento total. Opção de deploy 100% self-hosted na sua infra (AWS, GCP, on-prem) — código nunca sai dela. Suportamos modelos open-source pra requisitos críticos de privacidade.' },
-                { q: 'Funciona com monorepo?', a: 'Sim, otimizado pra Nx, Turborepo, Lerna e moonrepo. O code-aware RAG entende dependências entre packages.' },
-                { q: 'E sobre alucinação? Posso confiar no código gerado?', a: 'Cada PR criada por agente passa pelo seu CI completo (lint, testes, build) antes de chegar em review humano. Você sempre tem aprovação final — agentes nunca fazem merge direto.' },
-                { q: 'Como vocês cobram?', a: 'Diagnóstico tem valor fixo. Implantação é por escopo, com pagamento por milestone. Sem custo recorrente obrigatório — opcionalmente assina nosso plano de evolução contínua.' },
+                { q: 'Quais linguagens / frameworks vocês suportam?', a: 'Qualquer linguagem moderna (TypeScript, Python, Go, Java, Rust, Ruby, etc.). Os agentes aprendem o estilo e os padrões da sua base de código — não usamos modelos genéricos.' },
+                { q: 'Como integramos com nosso repositório?', a: 'Via integração oficial com GitHub ou GitLab, com permissões mínimas. Configuração completa em ~10 minutos, sem alterar o seu processo atual de desenvolvimento.' },
+                { q: 'Os agentes têm acesso ao nosso código privado?', a: 'Sim, com isolamento total. Existe a opção de instalação 100% dentro da sua infraestrutura (nuvem ou data center próprio) — o código nunca sai dela. Para requisitos críticos de privacidade, suportamos modelos de IA abertos.' },
+                { q: 'Funciona com monorepo?', a: 'Sim, otimizado pros principais frameworks de monorepo. Os agentes entendem como os pedaços do sistema se conectam — sem perder contexto.' },
+                { q: 'E se a IA "alucinar"? Posso confiar no código gerado?', a: 'Cada alteração feita por um agente passa por todos os seus testes automáticos antes de chegar em revisão humana. Você sempre tem a aprovação final — agentes nunca publicam código direto em produção.' },
+                { q: 'Como vocês cobram?', a: 'Diagnóstico tem valor fixo. A implantação é cobrada por escopo, com pagamento por etapa. Sem mensalidade obrigatória — opcionalmente, você pode contratar um plano de evolução contínua.' },
               ].map(item => (
                 <details
                   key={item.q}
@@ -416,16 +459,16 @@ export default function App() {
             <div
               aria-hidden
               className="absolute inset-0 -z-10
-                [background:radial-gradient(600px_300px_at_50%_0%,rgba(139,92,246,0.30),transparent_70%)]"
+                [background:radial-gradient(600px_300px_at_50%_0%,rgba(var(--accent-rgb),0.30),transparent_70%)]"
             />
             <div className="absolute -top-px left-1/2 h-px w-3/4 -translate-x-1/2 bg-gradient-to-r from-transparent via-accent to-transparent" />
 
             <h2 className="text-balance text-3xl font-semibold tracking-tight text-text-h md:text-5xl">
-              Onde IA pode acelerar sua engenharia?
+              Onde IA pode acelerar sua tecnologia?
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-text">
-              Diagnóstico técnico gratuito de 45min com tech leads.
-              Você sai com 3 oportunidades concretas de implantação no seu stack.
+              Diagnóstico técnico gratuito de 45min com nossos especialistas.
+              Você sai com 3 oportunidades concretas de aplicação no seu negócio.
             </p>
 
             <form
@@ -459,17 +502,17 @@ export default function App() {
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-10 md:flex-row md:gap-20">
           <div className="max-w-xs">
             <a href="#top" className="flex items-center gap-2.5 font-bold text-text-h">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-accent to-accent-2 text-sm">◆</span>
+              <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-accent to-accent-2 text-sm text-white">◆</span>
               Agentize
             </a>
             <p className="mt-3 text-sm text-text-muted">
-              Consultoria especializada em implantação de agentes de IA pra times de engenharia que querem acelerar o ciclo de dev.
+              Consultoria especializada em implantação de agentes de IA pra empresas que querem acelerar o desenvolvimento de software.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-12 text-sm">
             {[
               { h: 'Empresa', items: ['Sobre', 'Cases', 'Contato'] },
-              { h: 'Serviços', items: ['Code Generation', 'PR Review', 'Refactor'] },
+              { h: 'Serviços', items: ['Criação de código', 'Revisão automática', 'Modernização'] },
               { h: 'Legal', items: ['Privacidade', 'Termos', 'LGPD'] },
             ].map(c => (
               <div key={c.h}>
