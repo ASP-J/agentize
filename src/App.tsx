@@ -224,8 +224,7 @@ export default function App() {
         </section>
 
         {/* MOVIMENTO / EMPRESAS REAIS */}
-        <section className="relative isolate overflow-hidden border-y border-border-soft py-20">
-          <AuroraBlobs className="absolute inset-0 -z-10" variant="b" />
+        <section className="border-y border-border-soft py-20">
           <div className="mx-auto max-w-7xl px-6">
             <motion.div {...fadeUp} className="mx-auto mb-14 max-w-2xl text-center">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
@@ -326,7 +325,8 @@ export default function App() {
         </section>
 
         {/* ANTES vs DEPOIS */}
-        <section id="antes-depois" className="border-t border-border-soft py-28">
+        <section id="antes-depois" className="relative isolate overflow-hidden border-t border-border-soft py-28">
+          <AuroraBlobs className="absolute inset-0 -z-10 opacity-70" variant="b" />
           <div className="mx-auto max-w-7xl px-6">
             <motion.div {...fadeUp} className="mx-auto mb-14 max-w-2xl text-center">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
