@@ -240,31 +240,37 @@ export default function App() {
               {[
                 {
                   name: 'Nubank',
+                  slug: 'nubank',
                   context: 'Modernização de sistemas legados (COBOL) com apoio de IA e adoção interna de copilotos.',
                   region: 'Brasil',
                 },
                 {
                   name: 'Mercado Livre',
+                  slug: 'mercadolibre',
                   context: 'Adoção corporativa de copiloto de IA pra mais de 10 mil desenvolvedores.',
                   region: 'LatAm',
                 },
                 {
                   name: 'iFood',
+                  slug: 'ifood',
                   context: 'Iniciativas internas de IA pra produtividade dos times e automação de testes.',
                   region: 'Brasil',
                 },
                 {
                   name: 'Shopify',
+                  slug: 'shopify',
                   context: 'Tobi Lütke, CEO, definiu uso de IA como pré-requisito antes de qualquer nova contratação.',
                   region: 'Global',
                 },
                 {
                   name: 'Stripe',
+                  slug: 'stripe',
                   context: 'Integração profunda de IA no processo de revisão e modernização de código.',
                   region: 'Global',
                 },
                 {
-                  name: 'Block (Square)',
+                  name: 'Block',
+                  slug: 'block',
                   context: 'Lançou o Goose, agente open-source pra aumentar a produtividade do time de tecnologia.',
                   region: 'Global',
                 },
@@ -277,13 +283,19 @@ export default function App() {
                   transition={{ duration: 0.5, delay: i * 0.05 }}
                   className="group rounded-2xl border border-border bg-bg-elev p-5 transition hover:border-accent/40"
                 >
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-base font-bold tracking-tight text-text-h">{c.name}</span>
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <img
+                      src={`https://cdn.simpleicons.org/${c.slug}`}
+                      alt={c.name}
+                      loading="lazy"
+                      className="logo-mono h-7 w-auto max-w-[130px] object-contain object-left"
+                    />
                     <span className="rounded-md border border-border-soft bg-bg px-2 py-0.5 text-[10px] uppercase tracking-wider text-text-muted">
                       {c.region}
                     </span>
                   </div>
-                  <p className="text-sm leading-relaxed text-text">{c.context}</p>
+                  <span className="block text-base font-bold tracking-tight text-text-h">{c.name}</span>
+                  <p className="mt-2 text-sm leading-relaxed text-text">{c.context}</p>
                 </motion.div>
               ))}
             </div>
@@ -344,7 +356,7 @@ export default function App() {
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-bg/60 via-transparent to-bg/80" />
 
           <div className="mx-auto max-w-7xl px-6">
-            <motion.div {...fadeUp} className="mx-auto mb-16 max-w-2xl text-center">
+            <motion.div {...fadeUp} className="mx-auto mb-12 max-w-2xl text-center">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
                 Metodologia
               </span>
@@ -354,6 +366,37 @@ export default function App() {
               <p className="mt-4 text-text">
                 Processo testado, ajustado pra reduzir risco e entregar agentes confiáveis dentro do seu fluxo de trabalho.
               </p>
+            </motion.div>
+
+            {/* 30-day journey rail */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.6 }}
+              className="mx-auto mb-12 max-w-5xl"
+            >
+              <div className="mb-2 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-wider text-text-muted">
+                <span>Dia 0</span>
+                <span className="text-accent">30 dias até produção</span>
+                <span>Dia 30</span>
+              </div>
+              <div className="relative h-1.5 overflow-hidden rounded-full bg-border-soft">
+                <motion.div
+                  initial={{ width: '0%' }}
+                  whileInView={{ width: '100%' }}
+                  viewport={{ once: true, margin: '-100px' }}
+                  transition={{ duration: 1.6, ease: 'easeOut', delay: 0.2 }}
+                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-accent via-accent-2 to-accent-3 shadow-[0_0_10px_rgba(var(--accent-rgb),0.6)]"
+                />
+                {[25, 75].map(pct => (
+                  <span
+                    key={pct}
+                    style={{ left: `${pct}%` }}
+                    className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-bg-elev bg-accent"
+                  />
+                ))}
+              </div>
             </motion.div>
 
             <div className="grid gap-5 md:grid-cols-3">
@@ -396,25 +439,65 @@ export default function App() {
               </h2>
             </motion.div>
 
-            <div className="grid gap-5 md:grid-cols-3">
-              {[
-                { kpi: '67%', label: 'Redução no tempo médio de revisão de código', case: 'Empresa de software B2B · 40 desenvolvedores' },
-                { kpi: '3,4x', label: 'Velocidade em modernização de sistemas', case: 'Atualização de framework · 200 componentes' },
-                { kpi: '85%', label: 'Cobertura de testes gerada automaticamente', case: 'Sistema em Python · 200 mil linhas de código' },
-              ].map((c, i) => (
-                <motion.div
-                  key={c.kpi}
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="rounded-[var(--radius-card)] border border-border bg-gradient-to-br from-bg-elev to-bg-soft p-8"
-                >
-                  <div className="text-5xl font-bold tracking-tight text-grad">{c.kpi}</div>
-                  <p className="mt-3 text-base font-medium text-text-h">{c.label}</p>
-                  <p className="mt-2 text-sm text-text-muted">{c.case}</p>
-                </motion.div>
-              ))}
+            <div className="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
+              {/* Hero stat */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6 }}
+                className="relative isolate overflow-hidden rounded-[var(--radius-card)] border border-border bg-gradient-to-br from-bg-elev to-bg-soft p-8 md:p-12"
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 -z-10
+                    [background:radial-gradient(700px_400px_at_20%_20%,rgba(var(--accent-rgb),0.18),transparent_70%)]"
+                />
+                <div className="flex items-baseline justify-between gap-4">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Maior impacto</span>
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-text-muted">Empresa B2B · 40 devs</span>
+                </div>
+                <div className="mt-6 text-7xl font-bold tracking-tight text-grad md:text-8xl">67%</div>
+                <p className="mt-4 max-w-md text-xl font-medium text-text-h md:text-2xl">
+                  Redução no tempo médio de revisão de código
+                </p>
+                <div className="mt-8 max-w-sm">
+                  <div className="mb-2 flex justify-between font-mono text-[11px] text-text-muted">
+                    <span>Antes — ~3h por revisão</span>
+                    <span className="text-accent">Depois — ~1h</span>
+                  </div>
+                  <div className="relative h-1.5 overflow-hidden rounded-full bg-border-soft">
+                    <motion.div
+                      initial={{ width: '100%' }}
+                      whileInView={{ width: '33%' }}
+                      viewport={{ once: true, margin: '-60px' }}
+                      transition={{ duration: 1.4, delay: 0.3, ease: 'easeOut' }}
+                      className="absolute inset-y-0 left-0 bg-gradient-to-r from-accent to-accent-2"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* 2 secondary stats */}
+              <div className="grid gap-5">
+                {[
+                  { kpi: '3,4x', label: 'Velocidade em modernização de sistemas', case: 'Atualização de framework · 200 componentes' },
+                  { kpi: '85%', label: 'Cobertura de testes gerada automaticamente', case: 'Sistema em Python · 200 mil linhas de código' },
+                ].map((c, i) => (
+                  <motion.div
+                    key={c.kpi}
+                    initial={{ opacity: 0, x: 24 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ duration: 0.5, delay: 0.15 + i * 0.1 }}
+                    className="rounded-[var(--radius-card)] border border-border bg-bg-elev p-6"
+                  >
+                    <div className="text-4xl font-bold tracking-tight text-grad">{c.kpi}</div>
+                    <p className="mt-2 text-base font-medium text-text-h">{c.label}</p>
+                    <p className="mt-1 text-xs text-text-muted">{c.case}</p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

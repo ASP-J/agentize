@@ -95,3 +95,14 @@
 @utility ring-glow {
   box-shadow: 0 0 0 1px rgba(var(--accent-rgb), .35), 0 20px 60px -15px rgba(var(--accent-rgb), .5);
 }
+
+.logo-mono {
+  filter: brightness(0) invert(1);
+  opacity: 0.65;
+  transition: opacity .25s ease, filter .25s ease;
+}
+:root.light .logo-mono {
+  filter: brightness(0);
+  opacity: 0.55;
+}
+.logo-mono:hover { opacity: 1; }
