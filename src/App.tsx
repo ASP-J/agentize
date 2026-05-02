@@ -95,6 +95,7 @@ export default function App() {
           >
             <a href="#como-funciona" onClick={() => setMenuOpen(false)} className="rounded px-2 py-2 text-sm text-text hover:text-text-h md:p-0">Como funciona</a>
             <a href="#servicos" onClick={() => setMenuOpen(false)} className="rounded px-2 py-2 text-sm text-text hover:text-text-h md:p-0">Serviços</a>
+            <a href="#arquitetura" onClick={() => setMenuOpen(false)} className="rounded px-2 py-2 text-sm text-text hover:text-text-h md:p-0">Arquitetura</a>
             <a href="#metodologia" onClick={() => setMenuOpen(false)} className="rounded px-2 py-2 text-sm text-text hover:text-text-h md:p-0">Metodologia</a>
             <a href="#cases" onClick={() => setMenuOpen(false)} className="rounded px-2 py-2 text-sm text-text hover:text-text-h md:p-0">Cases</a>
             <a href="#faq" onClick={() => setMenuOpen(false)} className="rounded px-2 py-2 text-sm text-text hover:text-text-h md:p-0">FAQ</a>
@@ -286,12 +287,18 @@ export default function App() {
                   className="group rounded-2xl border border-border bg-bg-elev p-5 transition hover:border-accent/40"
                 >
                   <div className="mb-4 flex items-center justify-between gap-3">
-                    <img
-                      src={c.logo}
-                      alt={c.name}
-                      loading="lazy"
-                      className="logo-mono h-7 w-auto max-w-[130px] object-contain object-left"
-                    />
+                    {c.logo.includes('google.com/s2') ? (
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white p-1">
+                        <img src={c.logo} alt={c.name} loading="lazy" className="h-full w-full object-contain" />
+                      </div>
+                    ) : (
+                      <img
+                        src={c.logo}
+                        alt={c.name}
+                        loading="lazy"
+                        className="logo-mono h-7 w-auto max-w-[130px] object-contain object-left"
+                      />
+                    )}
                     <span className="rounded-md border border-border-soft bg-bg px-2 py-0.5 text-[10px] uppercase tracking-wider text-text-muted">
                       {c.region}
                     </span>
@@ -305,6 +312,113 @@ export default function App() {
             <p className="mt-8 text-center text-xs text-text-muted">
               Exemplos públicos do mercado · Não são clientes Agentize
             </p>
+          </div>
+        </section>
+
+        {/* ANTES vs DEPOIS */}
+        <section id="antes-depois" className="border-t border-border-soft py-28">
+          <div className="mx-auto max-w-7xl px-6">
+            <motion.div {...fadeUp} className="mx-auto mb-14 max-w-2xl text-center">
+              <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
+                Antes vs depois
+              </span>
+              <h2 className="text-balance text-3xl font-semibold tracking-tight text-text-h md:text-5xl">
+                O que muda no fluxo do seu time
+              </h2>
+              <p className="mt-4 text-text">
+                O mesmo trabalho — feito em uma fração do tempo, com menos retrabalho.
+              </p>
+            </motion.div>
+
+            <div className="grid gap-5 lg:grid-cols-2">
+              {/* AS-IS */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6 }}
+                className="rounded-[var(--radius-card)] border border-border bg-bg-elev/50 p-7 md:p-8"
+              >
+                <div className="mb-6 flex items-baseline justify-between">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted">Hoje · manual</span>
+                  <span className="font-mono text-[11px] text-text-muted">~7 dias por feature</span>
+                </div>
+                <ol className="space-y-4">
+                  {[
+                    { t: 'Tarefa criada manualmente', d: '~30min · alguém precisa abrir e descrever' },
+                    { t: 'Refinamento em reuniões', d: '~1 dia · agenda, idas e vindas' },
+                    { t: 'Desenvolvimento', d: '~3 dias · dev escrevendo do zero' },
+                    { t: 'Code review espera fila', d: '~1-2 dias · trava no calendário do colega' },
+                    { t: 'QA roda checklist manual', d: '~1 dia · cobertura inconsistente' },
+                    { t: 'Deploy e fingers crossed', d: '~1 dia · medo de quebrar produção' },
+                    { t: 'Debug em produção quando estoura', d: '~? · plantonista acordado às 3h' },
+                  ].map((s, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-border-soft bg-bg text-[11px] font-mono text-text-muted">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <p className="text-sm font-medium text-text-h">{s.t}</p>
+                        <p className="text-xs text-text-muted">{s.d}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </motion.div>
+
+              {/* TO-BE */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="relative rounded-[var(--radius-card)] border border-accent/40 bg-bg-elev p-7 ring-1 ring-accent/20 md:p-8"
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 -z-10
+                    [background:radial-gradient(500px_300px_at_80%_0%,rgba(var(--accent-rgb),0.18),transparent_70%)]"
+                />
+                <div className="mb-6 flex items-baseline justify-between">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Com agentes</span>
+                  <span className="text-grad font-mono text-[13px] font-bold">~1-2 dias por feature</span>
+                </div>
+                <ol className="space-y-4">
+                  {[
+                    { t: 'Pedido cai e agente já recebe', d: '< 5min · webhook automático' },
+                    { t: 'Agente quebra em sub-tarefas', d: 'instantâneo · com critérios claros' },
+                    { t: 'Dev avança com IA assistindo', d: '~1 dia · código, testes e docs em paralelo' },
+                    { t: 'Agente revisa em segundos', d: '< 30s · bugs, qualidade e cobertura' },
+                    { t: 'Testes auto-gerados rodam no CI', d: 'paralelo · sem espera' },
+                    { t: 'Deploy auto + monitoramento', d: '~minutos · com rollback inteligente' },
+                    { t: 'Agente analisa logs e alerta cedo', d: 'contínuo · resolve antes de virar incidente' },
+                  ].map((s, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gradient-to-br from-accent to-accent-2 text-[11px] font-mono font-bold text-white">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <p className="text-sm font-medium text-text-h">{s.t}</p>
+                        <p className="text-xs text-text-muted">{s.d}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </motion.div>
+            </div>
+
+            {/* Bottom callout */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-2xl border border-border-soft bg-bg-elev/40 px-6 py-4 text-center"
+            >
+              <span className="text-sm text-text-muted">
+                Menos etapas manuais · Trabalho em paralelo · Feedback em segundos · Menos plantão
+              </span>
+            </motion.div>
           </div>
         </section>
 
@@ -348,6 +462,97 @@ export default function App() {
                     <p className="mt-2 text-[15px] text-text">{s.d}</p>
                   </CardSpotlight>
                 </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ARQUITETURA */}
+        <section id="arquitetura" className="border-t border-border-soft py-28">
+          <div className="mx-auto max-w-5xl px-6">
+            <motion.div {...fadeUp} className="mx-auto mb-14 max-w-2xl text-center">
+              <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
+                Arquitetura
+              </span>
+              <h2 className="text-balance text-3xl font-semibold tracking-tight text-text-h md:text-5xl">
+                Como os agentes se conectam ao seu time
+              </h2>
+              <p className="mt-4 text-text">
+                4 camadas, sem mistério — entram onde seu time já trabalha e devolvem resultado direto onde já é visto.
+              </p>
+            </motion.div>
+
+            <div className="space-y-3">
+              {[
+                {
+                  tag: '01 · Entrada',
+                  title: 'Onde seu time já trabalha',
+                  desc: 'Os agentes ouvem os sistemas que vocês já usam — sem precisar trocar nada.',
+                  chips: ['GitHub', 'GitLab', 'Jira', 'Slack', 'Linear'],
+                },
+                {
+                  tag: '02 · Agentes',
+                  title: 'A inteligência que faz o trabalho',
+                  desc: 'Cada agente é especialista em uma parte do ciclo — e trabalham em paralelo.',
+                  chips: ['Planejamento', 'Revisão', 'Testes', 'Documentação', 'Debug'],
+                },
+                {
+                  tag: '03 · Integração',
+                  title: 'Dentro da sua infra, seguindo seus padrões',
+                  desc: 'Roda na sua nuvem ou data center próprio. Seu código nunca sai. Suas regras valem.',
+                  chips: ['Sua infra', 'Suas políticas', 'Seus dados', 'SOC 2'],
+                },
+                {
+                  tag: '04 · Saída',
+                  title: 'Resultado direto onde o time vê',
+                  desc: 'Sem dashboards extras. O agente entrega no canal que já é o ponto de verdade do time.',
+                  chips: ['Pull requests prontas', 'Testes', 'Alertas', 'Documentação', 'Métricas'],
+                },
+              ].map((layer, i) => (
+                <div key={layer.tag}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    className="rounded-[var(--radius-card)] border border-border bg-bg-elev p-5 md:p-6"
+                  >
+                    <div className="grid gap-5 md:grid-cols-[160px_1fr] md:items-center">
+                      <div>
+                        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">{layer.tag}</p>
+                        <h3 className="mt-1 text-lg font-semibold text-text-h">{layer.title}</h3>
+                      </div>
+                      <div>
+                        <p className="text-sm text-text">{layer.desc}</p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {layer.chips.map(chip => (
+                            <span
+                              key={chip}
+                              className="rounded-md border border-border-soft bg-bg px-2.5 py-1 text-[11px] font-medium text-text-h"
+                            >
+                              {chip}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Connector arrow between layers */}
+                  {i < 3 && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true, margin: '-60px' }}
+                      transition={{ duration: 0.4, delay: i * 0.1 + 0.2 }}
+                      className="flex justify-center py-2"
+                    >
+                      <svg width="16" height="20" viewBox="0 0 16 20" fill="none" aria-hidden>
+                        <path d="M8 1v17m0 0l6-6m-6 6l-6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="text-accent" />
+                      </svg>
+                    </motion.div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
