@@ -301,7 +301,7 @@ export default function App() {
                         />
                       )}
                       {c.kind === 'mercado-livre' && (
-                        <img src="/logos/mercado-livre.svg" alt="Mercado Livre" className="h-9 w-auto" />
+                        <img src="/logos/mercado-livre.svg" alt="Mercado Livre" className="h-7 w-auto" />
                       )}
                       {c.kind === 'block' && (
                         <span className="font-extrabold tracking-tight text-text-h" style={{ fontSize: '22px', letterSpacing: '-0.04em' }}>
