@@ -7,6 +7,8 @@ import { HowItWorks } from '@/components/HowItWorks';
 import { ParticleNetwork } from '@/components/ParticleNetwork';
 import { PerspectiveGrid } from '@/components/PerspectiveGrid';
 import { AuroraBlobs } from '@/components/AuroraBlobs';
+import { AnimatedNumber } from '@/components/AnimatedNumber';
+import { StaggeredText } from '@/components/StaggeredText';
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -154,14 +156,10 @@ export default function App() {
               Para times de tecnologia
             </motion.span>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-balance text-4xl font-semibold tracking-tight text-text-h md:text-6xl lg:text-7xl"
-            >
-              <span className="text-grad">Agentes de IA</span> que aceleram seu time de tecnologia.
-            </motion.h1>
+            <h1 className="text-balance text-4xl font-semibold tracking-tight text-text-h md:text-6xl lg:text-7xl">
+              <StaggeredText className="text-grad" delay={0.15} stagger={0.09}>Agentes de IA</StaggeredText>{' '}
+              <StaggeredText delay={0.45} stagger={0.06}>que aceleram seu time de tecnologia.</StaggeredText>
+            </h1>
 
             <motion.p
               initial={{ opacity: 0, y: 24 }}
@@ -220,6 +218,27 @@ export default function App() {
             >
               <AgentFlow />
             </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.a
+              href="#como-funciona"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+              className="mx-auto mt-16 flex w-fit flex-col items-center gap-2 text-text-muted transition-colors hover:text-text-h"
+              aria-label="Rolar pra ver o agente em ação"
+            >
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em]">Role pra continuar</span>
+              <motion.span
+                animate={{ y: [0, 6, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                className="grid h-9 w-9 place-items-center rounded-full border border-border bg-bg-elev"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 5v14M19 12l-7 7-7-7" />
+                </svg>
+              </motion.span>
+            </motion.a>
           </div>
         </section>
 
@@ -747,7 +766,9 @@ export default function App() {
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Maior impacto</span>
                   <span className="font-mono text-[10px] uppercase tracking-wider text-text-muted">Empresa B2B · 40 devs</span>
                 </div>
-                <div className="mt-6 text-7xl font-bold tracking-tight text-grad md:text-8xl">67%</div>
+                <div className="mt-6 text-7xl font-bold tracking-tight text-grad md:text-8xl">
+                  <AnimatedNumber value={67} suffix="%" duration={1.8} />
+                </div>
                 <p className="mt-4 max-w-md text-xl font-medium text-text-h md:text-2xl">
                   Redução no tempo médio de revisão de código
                 </p>
@@ -771,18 +792,20 @@ export default function App() {
               {/* 2 secondary stats */}
               <div className="grid gap-5">
                 {[
-                  { kpi: '3,4x', label: 'Velocidade em modernização de sistemas', case: 'Atualização de framework · 200 componentes' },
-                  { kpi: '85%', label: 'Cobertura de testes gerada automaticamente', case: 'Sistema em Python · 200 mil linhas de código' },
+                  { value: 3.4, suffix: 'x', decimals: 1, label: 'Velocidade em modernização de sistemas', case: 'Atualização de framework · 200 componentes' },
+                  { value: 85, suffix: '%', decimals: 0, label: 'Cobertura de testes gerada automaticamente', case: 'Sistema em Python · 200 mil linhas de código' },
                 ].map((c, i) => (
                   <motion.div
-                    key={c.kpi}
+                    key={c.label}
                     initial={{ opacity: 0, x: 24 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: '-60px' }}
                     transition={{ duration: 0.5, delay: 0.15 + i * 0.1 }}
                     className="rounded-[var(--radius-card)] border border-border bg-bg-elev p-6"
                   >
-                    <div className="text-4xl font-bold tracking-tight text-grad">{c.kpi}</div>
+                    <div className="text-4xl font-bold tracking-tight text-grad">
+                      <AnimatedNumber value={c.value} suffix={c.suffix} decimals={c.decimals} duration={1.4} />
+                    </div>
                     <p className="mt-2 text-base font-medium text-text-h">{c.label}</p>
                     <p className="mt-1 text-xs text-text-muted">{c.case}</p>
                   </motion.div>
