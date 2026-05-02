@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #07070d;
+  --color-bg-elev: #0e0e1a;
+  --color-bg-soft: #131322;
+  --color-border: #1f2030;
+  --color-border-soft: #181927;
+  --color-text: #b8bccc;
+  --color-text-h: #f5f6fa;
+  --color-text-muted: #6f7388;
+  --color-accent: #8b5cf6;
+  --color-accent-2: #ec4899;
+  --color-accent-3: #06b6d4;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  --radius-card: 22px;
+
+  --animate-aurora: aurora 14s ease-in-out infinite;
+  --animate-shine: shine 6s linear infinite;
+  --animate-pulse-slow: pulseSlow 3s ease-in-out infinite;
+  --animate-flow: flow 3s linear infinite;
+}
+
+@keyframes aurora {
+  0%, 100% { transform: translate(0%, 0%) scale(1); opacity: .5; }
+  50% { transform: translate(8%, -6%) scale(1.1); opacity: .75; }
+}
+@keyframes shine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes pulseSlow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.08); }
+}
+@keyframes flow {
+  0% { stroke-dashoffset: 40; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-bg text-text font-sans antialiased;
+    background-image:
+      radial-gradient(1200px 600px at 80% -10%, rgba(139,92,246,.18), transparent 60%),
+      radial-gradient(900px 500px at 0% 10%, rgba(236,72,153,.10), transparent 60%);
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--color-accent); color: white; }
+}
+
+@utility text-grad {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2), var(--color-accent-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@utility ring-glow {
+  box-shadow: 0 0 0 1px rgba(139,92,246,.35), 0 20px 60px -15px rgba(139,92,246,.5);
+}
