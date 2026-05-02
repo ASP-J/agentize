@@ -6,6 +6,7 @@ import { AgentFlow } from '@/components/AgentFlow';
 import { HowItWorks } from '@/components/HowItWorks';
 import { ParticleNetwork } from '@/components/ParticleNetwork';
 import { PerspectiveGrid } from '@/components/PerspectiveGrid';
+import { AuroraBlobs } from '@/components/AuroraBlobs';
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -222,7 +223,8 @@ export default function App() {
         </section>
 
         {/* MOVIMENTO / EMPRESAS REAIS */}
-        <section className="border-y border-border-soft py-20">
+        <section className="relative isolate overflow-hidden border-y border-border-soft py-20">
+          <AuroraBlobs className="absolute inset-0 -z-10" variant="b" />
           <div className="mx-auto max-w-7xl px-6">
             <motion.div {...fadeUp} className="mx-auto mb-14 max-w-2xl text-center">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
@@ -240,37 +242,37 @@ export default function App() {
               {[
                 {
                   name: 'Nubank',
-                  slug: 'nubank',
+                  logo: 'https://cdn.simpleicons.org/nubank',
                   context: 'Modernização de sistemas legados (COBOL) com apoio de IA e adoção interna de copilotos.',
                   region: 'Brasil',
                 },
                 {
                   name: 'Mercado Livre',
-                  slug: 'mercadolibre',
+                  logo: 'https://www.google.com/s2/favicons?domain=mercadolivre.com.br&sz=128',
                   context: 'Adoção corporativa de copiloto de IA pra mais de 10 mil desenvolvedores.',
                   region: 'LatAm',
                 },
                 {
                   name: 'iFood',
-                  slug: 'ifood',
+                  logo: 'https://cdn.simpleicons.org/ifood',
                   context: 'Iniciativas internas de IA pra produtividade dos times e automação de testes.',
                   region: 'Brasil',
                 },
                 {
                   name: 'Shopify',
-                  slug: 'shopify',
+                  logo: 'https://cdn.simpleicons.org/shopify',
                   context: 'Tobi Lütke, CEO, definiu uso de IA como pré-requisito antes de qualquer nova contratação.',
                   region: 'Global',
                 },
                 {
                   name: 'Stripe',
-                  slug: 'stripe',
+                  logo: 'https://cdn.simpleicons.org/stripe',
                   context: 'Integração profunda de IA no processo de revisão e modernização de código.',
                   region: 'Global',
                 },
                 {
                   name: 'Block',
-                  slug: 'block',
+                  logo: 'https://www.google.com/s2/favicons?domain=block.xyz&sz=128',
                   context: 'Lançou o Goose, agente open-source pra aumentar a produtividade do time de tecnologia.',
                   region: 'Global',
                 },
@@ -285,7 +287,7 @@ export default function App() {
                 >
                   <div className="mb-4 flex items-center justify-between gap-3">
                     <img
-                      src={`https://cdn.simpleicons.org/${c.slug}`}
+                      src={c.logo}
                       alt={c.name}
                       loading="lazy"
                       className="logo-mono h-7 w-auto max-w-[130px] object-contain object-left"
@@ -310,7 +312,8 @@ export default function App() {
         <HowItWorks />
 
         {/* SERVIÇOS */}
-        <section id="servicos" className="py-28">
+        <section id="servicos" className="relative isolate overflow-hidden py-28">
+          <AuroraBlobs className="absolute inset-0 -z-10 opacity-60" variant="a" />
           <div className="mx-auto max-w-7xl px-6">
             <motion.div {...fadeUp} className="mx-auto mb-16 max-w-2xl text-center">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">
@@ -503,7 +506,8 @@ export default function App() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="border-t border-border-soft py-28">
+        <section id="faq" className="relative isolate overflow-hidden border-t border-border-soft py-28">
+          <AuroraBlobs className="absolute inset-0 -z-10 opacity-50" variant="c" />
           <div className="mx-auto max-w-3xl px-6">
             <motion.div {...fadeUp} className="mb-12 text-center">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-accent">FAQ</span>
@@ -554,28 +558,20 @@ export default function App() {
               Você sai com 3 oportunidades concretas de aplicação no seu negócio.
             </p>
 
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert('Recebido! Entramos em contato em até 24h.');
-              }}
-              className="mx-auto mt-8 flex max-w-md flex-col gap-2 sm:flex-row"
-            >
-              <input
-                type="email"
-                required
-                placeholder="seu@email.com"
-                className="flex-1 rounded-xl border border-border bg-bg px-5 py-3.5 text-text-h outline-none transition placeholder:text-text-muted focus:border-accent"
-              />
-              <button
-                type="submit"
-                className="ring-glow rounded-xl bg-gradient-to-br from-accent to-accent-2 px-6 py-3.5 font-semibold text-white transition hover:-translate-y-0.5"
+            <div className="mt-10 flex flex-col items-center gap-3">
+              <a
+                href="https://wa.me/5541996311605?text=Ol%C3%A1%21%20Tenho%20interesse%20no%20diagn%C3%B3stico%20t%C3%A9cnico%20gratuito%20da%20Agentize."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ring-glow inline-flex items-center justify-center gap-3 rounded-xl bg-[#25D366] px-7 py-4 text-base font-semibold text-white transition hover:-translate-y-0.5"
               >
-                Agendar →
-              </button>
-            </form>
-
-            <p className="mt-3 text-xs text-text-muted">Sem compromisso · Resposta em até 24h</p>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+                </svg>
+                Falar no WhatsApp
+              </a>
+              <p className="text-xs text-text-muted">Resposta em minutos · sem compromisso</p>
+            </div>
           </motion.div>
         </section>
       </main>
